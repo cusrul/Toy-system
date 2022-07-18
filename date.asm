@@ -1,0 +1,2 @@
+	mov byte 0xb8000,'a';
+	mov byte 0xb8001,0x0f;

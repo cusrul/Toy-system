@@ -1,0 +1,18 @@
+enter_string:          ;function enter_string enter <=50 byte ,save in string_buffer
+        	; +2 because enter need jump "enter"
+
+	;this fuction is need si=string,buffer,and enter "=" stop;
+	;
+
+._enter_f_loop:
+        mov ah,0x00;
+        int 0x16;
+        cmp al,'=';
+        je pop_sp; return prevous function;
+        mov ah,0x0e;
+        int 0x10;
+        mov [si],al;
+        add si,1;
+        jmp ._enter_f_loop;
+
+

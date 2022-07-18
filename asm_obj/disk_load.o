@@ -1,0 +1,14 @@
+disk_load:
+mov dh,0x00
+mov dl,0x00 ;dh->磁头号,dl->驱动器号
+mov ah,0x10
+mov al,0x00
+mov es,ax
+xor bx,bx ;es:bx->the data   0x1000:0000
+mov ch,0 ;ch->磁道号
+mov cl,2 ;cl->起始扇区号 由1开始
+mov ah,02h ; 标准
+mov al,01h ;how many blocks to read
+int 13h
+ret;
+
