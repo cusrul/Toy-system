@@ -1,5 +1,6 @@
 #include <global_def>
 void mov_u16(char a,char b,int c);
+void asm_enable_page();
 void initmeneray(){
     initpage();
 }
@@ -9,6 +10,9 @@ int initpage(){
     
     init_PDT();
     add_system_PDT();
+    add_system_PET();
+    asm_enable_page();
+ //   sys_logo_print();
     return 0;
 }
 
@@ -30,6 +34,22 @@ int add_system_PDT(){
     cl=0b00000011;
     mov_u16(cl,ch,PDT);
     mov_u16(ecl,ech,PDT+2);
+    return 0;
+}
+int add_system_PET(){
+    char ech,ecl,ch,cl;
+    unsigned int index_pet=0x0;
+    unsigned char ddn=0x0;
+    for(unsigned int i=0x21000;i<0x22000;){
+        ch=(ddn)<<4;
+        ecl=(ddn)>>4; //ech ecl ch cl
+        ech=0;
+        cl=0x3;
+        mov_u16(cl,ch,i);
+        mov_u16(ecl,ech,i+2);
+        ddn++;
+        i+=4;
+    }
     return 0;
 }
 int sys_logo_print(){
