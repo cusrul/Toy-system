@@ -1,8 +1,8 @@
-global s_printf
+global mov_u16
 [section .data]
 [section .text]
 
-s_printf:
+mov_u16:
     mov   al, [esp+4]   ; argument 1
     mov   ah,[esp+8]
     mov   ebx,[esp+12]

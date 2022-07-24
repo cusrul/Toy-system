@@ -1,28 +1,38 @@
 bits 16;
 org 0x7c00;
 
-
 	
 
 	mov si,system_start;
 	call printf_string;
 
-
-	
-	
+	mov dh,0x00 ;dh->磁头号,dl->驱动器号
+	mov dl,0x00
+	mov ax,0x0000
+	mov es,ax
+	mov bx,0x1000 ;es:bx->the data   0x1000
+	mov ah,0x02
+	mov ch,0 ;ch->磁道号
+	mov cl,2 ;cl->起始扇区号
+	mov al,1 ;sector member
+lp:
+	inc al
+	int 13h
+	add bx,512
+	cmp al,18
+	jne lp
+	cmp dh,1;
+	je pass
+	mov dh,1
+	mov al,0
+	jmp lp
+pass:
 
 ;//get disk information;
 
 ;//system_run  flag
-mov dx,0x0000 ;dh->磁头号,dl->驱动器号
-mov ax,0x0000
-mov es,ax
-mov bx,0x1000 ;es:bx->the data   0x1000:0000
-mov ch,0 ;ch->磁道号
-mov cl,2 ;cl->起始扇区号
-mov ah,02h ;param
-mov al,01h ;how many blocks to read
-int 13h
+	
+
 	
 ;//load disk  flag;
 	mov ax,1000;
@@ -77,8 +87,8 @@ int 13h
 	call printf_string; text prinf string,use function--> .printf_string
 	
 	
-	mov si,string_buffer;
-	call enter_string;
+;	mov si,string_buffer;
+;	call enter_string;
 
 
 	mov ax,0;
@@ -107,10 +117,10 @@ int 13h
 	
 
 
+
 	
-
-
-
+	
+	
 	
 	
 
@@ -163,9 +173,8 @@ get_screen_information:db 0xa,0xd,"getting screen information;",0
 move_gdt_close_int:db 0xa,0xd,"moved gdt finshed",0
 
 disk_load_finsh:db 0xa,0xd,"the disk load is finsh;",0
-enter_is_work: db "this enter is good running",0
 string_buffer: times 50 db 0; this is the enter_buffer end;
-enter_successful: db 0xd,0xa,"enter is run",0;
+
 times 510-($-$$) db 0;
 dw 0xaa55;
 

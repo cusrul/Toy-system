@@ -1,0 +1,2 @@
+#define PDT 0x20000 
+#define PET 0x21000 

@@ -1,10 +1,9 @@
+ENTRY(main)
 SECTIONS
- {
-   . = 0x0;
-   .text : { *(.text*) 
-   *(.data) 
-   *(.bss) 
-  } 
+{
+    .text :
+    {
+        *(.text.main)
+        *(.text*)
+    }
 }
-ENTRY(cmain)
-
